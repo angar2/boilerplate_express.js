@@ -1,0 +1,23 @@
+{
+  "name": "boilerplate_express",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://angar2@github.com/angar2/boilerplate_express.js.git"
+  },
+  "author": "angari",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/angar2/boilerplate_express.js/issues"
+  },
+  "homepage": "https://github.com/angar2/boilerplate_express.js#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
