@@ -1,6 +1,11 @@
 const express = require('express');
 const app = express();
 const port = 3000;
+const mongoose = require('mongoose');
+mongoose.set("strictQuery", false);
+mongoose.connect('')
+    .then(() => console.log('MongoDB Connected...'))
+    .catch((err => console.log(err)));
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
