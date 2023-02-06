@@ -71,6 +71,16 @@ userSchema.methods.generateToken = function(cb) {
     });
 };
 
+// 인증 토큰 찾기
+userSchema.statics.findByToken = function(token, cb) {
+    jwt.verify(token, 'secretToken', function(err, decoded) {
+        User.findOne({_id: decoded, token: token}, function(err, user) {
+            if(err) return cb(err);
+            cb(null, user);
+        });
+    });
+};
+
 const User = mongoose.model('User',userSchema)
 
 module.exports = { User }

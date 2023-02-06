@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 
 const config = require('./config/key');
 const { User } = require('./models/User');
+const { auth } = require('./middleware/auth');
 
 app.use(bodyParser.urlencoded({extended: true})); // form
 app.use(bodyParser.json()); // json
@@ -19,6 +20,19 @@ mongoose.connect(config.mongoURI).then(
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
+});
+
+app.get('/auth', auth, (req, res) => {
+    res.status(200).json({
+        isAuth: true,
+        isAdmin: req.user.role === 0 ? false : true,
+        _id: req.user._id,
+        name: req.user.name,
+        email: req.user.email,
+        lastname: req.user.lastname,
+        role: req.user.role,
+        image: req.user.image,
+      });
 });
 
 app.post('/register', (req, res) => {
