@@ -30,6 +30,19 @@ function RegisterPage() {
     if(Password !== ConfirmPassword) {
       return alert('비밀번호를 다시 확인해주세요.');
     }
+    let body = {
+      name: Name,
+      email: Email,
+      password: Password
+    };
+    dispatch(registerUser(body))
+      .then(res => {
+        if(res.payload.success) {
+          navigate('/login')
+        } else {
+          alert('Error')
+        }
+    });
   };
   
   return (
