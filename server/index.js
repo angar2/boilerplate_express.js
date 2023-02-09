@@ -18,11 +18,11 @@ mongoose.connect(config.mongoURI).then(
     () => console.log('MongoDB Connected...')).catch(
         (err => console.log(err)));
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
   res.send('Hello World!')
 });
 
-app.get('/auth', auth, (req, res) => {
+app.get('/api/user/auth', auth, (req, res) => {
     res.status(200).json({
         isAuth: true,
         isAdmin: req.user.role === 0 ? false : true,
@@ -35,7 +35,7 @@ app.get('/auth', auth, (req, res) => {
       });
 });
 
-app.post('/register', (req, res) => {
+app.post('/api/user/register', (req, res) => {
     const user = new User(req.body);
     user.save((err, user) => {
         if(err) return res.json({success: false, err});
@@ -43,7 +43,7 @@ app.post('/register', (req, res) => {
     });
 });
 
-app.post('/login', (req, res) => {
+app.post('/api/user/login', (req, res) => {
     User.findOne({email: req.body.email}, (err, user) => {
         if(!user) {
             return res.json({
