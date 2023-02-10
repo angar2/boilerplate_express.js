@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Typography, Button, Form, message, Input} from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import Dropzone from 'react-dropzone';
@@ -6,7 +6,41 @@ import Dropzone from 'react-dropzone';
 const {Title} = Typography;
 const {TextArea} = Input;
 
+const PrivateOption = [
+    { value: 0, label: 'Private' },
+    { value: 1, label: 'Public' }
+];
+
+const CategoryOption = [
+    { value: 0, label: "Film & Animation" },
+    { value: 0, label: "Autos & Vehicles" },
+    { value: 0, label: "Music" },
+    { value: 0, label: "Pets & Animals" },
+    { value: 0, label: "Sports" },
+];
+
 function VideoUploadPage() {
+    const [VideoTitle, setVideoTitle] = useState("");
+    const [Description, setDescription] = useState("");
+    const [Private, setPrivate] = useState(0);
+    const [Category, setCategory] = useState("Film & Animation");
+
+    const onChangeVideoTitle = (event) => {
+        setVideoTitle(event.currentTarget.value);
+    };
+
+    const onChangeDecsription = (event) => {
+        setDescription(event.currentTarget.value);
+    };
+
+    const onChangePrivate = (event) => {
+        setPrivate(event.currentTarget.value);
+    };
+
+    const onChangeCategory = (event) => {
+        setCategory(event.currentTarget.value);
+    };
+
   return (
     <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
             <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
@@ -34,17 +68,27 @@ function VideoUploadPage() {
                 </div>
                 <br /><br />
                 <label>Title</label>
-                <TextArea />
+                <Input 
+                    onChange={onChangeVideoTitle}
+                    value={VideoTitle}
+                />
                 <br /><br />
                 <label>Description</label>
-                <TextArea />
+                <TextArea 
+                    onChange={onChangeDecsription}
+                    value={Description}
+                />
                 <br /><br />
-                <select>
-                    <option></option>
+                <select onChange={onChangePrivate}>
+                    {PrivateOption.map((item, index) => (
+                        <option key={index} value={item.value}>{item.label}</option>
+                    ))}
                 </select>
                 <br /><br />
-                <select>
-                    <option></option>
+                <select onChange={onChangeCategory}>
+                    {CategoryOption.map((item, index) => (
+                        <option key={index} value={item.value}>{item.label}</option>
+                    ))}
                 </select>
                 <br /><br />
                 <Button type="primary" size="large">
