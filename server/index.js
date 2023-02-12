@@ -18,6 +18,9 @@ mongoose.connect(config.mongoURI).then(
     () => console.log('MongoDB Connected...')).catch(
         (err => console.log(err)));
 
+app.use('/api/video', require('./routes/video'));
+app.use('/uploads', express.static('uploads'));
+
 app.get('/api', (req, res) => {
   res.send('Hello World!')
 });
