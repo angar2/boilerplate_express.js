@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Typography, Button, Form, message, Input} from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
@@ -21,6 +23,8 @@ const CategoryOption = [
 ];
 
 function VideoUploadPage() {
+    const user = useSelector(state => state.user);
+    
     const [VideoTitle, setVideoTitle] = useState("");
     const [Description, setDescription] = useState("");
     const [Private, setPrivate] = useState(0);
@@ -28,6 +32,8 @@ function VideoUploadPage() {
     const [FilePath, setFilePath] = useState("");
     const [Duration, setDuration] = useState("");
     const [ThumbnailPath, setThumbnailPath] = useState("");
+    
+    const navigate = useNavigate();
 
     const onChangeVideoTitle = (event) => {
         setVideoTitle(event.currentTarget.value);
@@ -52,7 +58,7 @@ function VideoUploadPage() {
         };
         formData.append("file", files[0]);
 
-        axios.post('/api/video/upload', formData, config)
+        axios.post('/api/video/uploadFile', formData, config)
             .then(res => {
                 if(res.data.success) {
                     let variable = {
@@ -70,17 +76,42 @@ function VideoUploadPage() {
                             }
                         });
                 } else {
-                    alert('업로드에 실패했습니다.')
+                    alert('파일 업로드에 실패했습니다.')
                 }
         });
     };
+
+    const onSubmit = (event) => {
+        event.preventDefault();
+        const variables = {
+            writer: user.userData._id,
+            title: VideoTitle,
+            description: Description,
+            private: Private,
+            filePath: FilePath,
+            category: Category,
+            duration: Duration,
+            thumbnail: ThumbnailPath
+        };
+        axios.post('/api/video/uploadVideo', variables)
+            .then(res => {
+                if(res.data.success) {
+                    message.success('비디오가 업로드되었습니다.');
+                    setTimeout(() => {
+                        navigate('/');
+                    }, 3000);
+                } else {
+                    alert('비디오 업로드에 실패했습니다.');
+                }
+            })
+    }
 
   return (
     <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
             <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
                 <Title level={2} > Upload Video</Title>
             </div>
-            <Form onSubmit>
+            <Form onSubmit={onSubmit}>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Dropzone
                         onDrop={onDropVideo}
@@ -127,7 +158,7 @@ function VideoUploadPage() {
                     ))}
                 </select>
                 <br /><br />
-                <Button type="primary" size="large">
+                <Button type="primary" size="large" onClick={onSubmit}>
                     Submit
                 </Button>
 
