@@ -28,6 +28,7 @@ function LoginPage(props) {
     dispatch(loginUser(body))
       .then(res => {
         if(res.payload.success) {
+          localStorage.setItem('user_id', res.payload.user_id)
           navigate('/')
         } else {
           alert('Error')
