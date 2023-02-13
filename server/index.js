@@ -19,6 +19,7 @@ mongoose.connect(config.mongoURI).then(
         (err => console.log(err)));
 
 app.use('/api/video', require('./routes/video'));
+app.use('/api/subscribe', require('./routes/subscribe'));
 app.use('/uploads', express.static('uploads'));
 
 app.get('/api', (req, res) => {
