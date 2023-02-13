@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useParams } from "react-router-dom";
 import { List, Avatar, Col, Row } from 'antd';
+import SideVideos from './sections/SideVideos';
 
 function DetailVideoPage(props) {
 
@@ -25,7 +26,7 @@ function DetailVideoPage(props) {
         return (
             <Row>
                 <Col lg={18} xs={24}>
-                    <div className="postPage" style={{ width: '100%', padding: '3rem 4em' }}>
+                    <div className="postPage" style={{ padding: '3rem 4em' }}>
                         <video style={{ width: '100%' }} src={`http://localhost:5000/${Video.filePath}`} controls></video>
                         <List.Item
                             actions={[]}
@@ -38,6 +39,9 @@ function DetailVideoPage(props) {
                             <div></div>
                         </List.Item>
                     </div>
+                </Col>
+                <Col lg={6} xs={24}>
+                    <SideVideos />
                 </Col>
             </Row>
         );
