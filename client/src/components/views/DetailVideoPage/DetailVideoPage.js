@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams } from "react-router-dom";
 import { List, Avatar, Col, Row } from 'antd';
 import SideVideos from './sections/SideVideos';
+import Subscribe from './sections/Subscribe';
 
 function DetailVideoPage(props) {
 
@@ -29,7 +30,7 @@ function DetailVideoPage(props) {
                     <div className="postPage" style={{ padding: '3rem 4em' }}>
                         <video style={{ width: '100%' }} src={`http://localhost:5000/${Video.filePath}`} controls></video>
                         <List.Item
-                            actions={[]}
+                            actions={[<Subscribe />]}
                         >
                             <List.Item.Meta
                                 avatar={<Avatar src={Video.writer && Video.writer.image} />}
