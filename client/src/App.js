@@ -7,6 +7,7 @@ import RegisterPage from "./components/views/RegisterPage/RegisterPage";
 import NavBar from "./components/views/NavBar/NavBar";
 import Footer from "./components/views/Footer/Footer";
 import UploadVideoPage from "./components/views/UploadVideoPage/UploadVideoPage";
+import DetailVideoPage from "./components/views/DetailVideoPage/DetailVideoPage";
 import Auth from './hoc/auth';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
   const AuthLoginPage = Auth(LoginPage, false);
   const AuthRegisterPage = Auth(RegisterPage, false);
   const AuthUploadVideoPage = Auth(UploadVideoPage, true);
+  const AuthDetailVideoPage = Auth(DetailVideoPage, true);
 
   return (
     <Router>
@@ -25,6 +27,7 @@ function App() {
           <Route path="/login" element={<AuthLoginPage />}/>
           <Route path="/register" element={<AuthRegisterPage />}/>
           <Route path="/video/upload" element={<AuthUploadVideoPage />}/>
+          <Route path="/video/:videoId" element={<AuthDetailVideoPage />}/>
         </Routes>
       </div>
       <Footer />
