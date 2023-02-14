@@ -7,9 +7,24 @@ const { Meta } = Card;
 
 function SubscribingPage() {
   
-  const [Videos, setVideos] = useState([]);
+    const [Videos, setVideos] = useState([]);
 
-  const renderCards = Videos.map((video, index) => {
+    console.log(Videos)
+    useEffect(() => {
+        let variable = {
+            subscriber: localStorage.getItem('user_id')
+        };
+        axios.post('/api/video/getSubscribingVideos', variable)
+        .then(res => {
+        if(res.data.success) {
+            setVideos(res.data.videos);
+        } else {
+            alert('비디오 불러오기를 실패했습니다.');
+        }
+        });
+    }, []);
+
+    const renderCards = Videos.map((video, index) => {
 
     let minutes = Math.floor(video.duration / 60);
     let seconds = Math.floor(video.duration - minutes * 60);
