@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { List, Avatar, Col, Row } from 'antd';
 import SideVideos from './sections/SideVideos';
 import Subscribe from './sections/Subscribe';
+import Comment from './sections/Comment';
 
 function DetailVideoPage(props) {
 
@@ -42,10 +43,11 @@ function DetailVideoPage(props) {
                             />
                             <div></div>
                         </List.Item>
+                        <Comment />
                     </div>
                 </Col>
                 <Col lg={6} xs={24}>
-                    <SideVideos />
+                    <SideVideos videoId={Video._id}/>
                 </Col>
             </Row>
         );
