@@ -23,14 +23,17 @@ function DetailVideoPage(props) {
             alert('게시물 정보 불러오기에 실패했습니다.');
         }
     });
+    
+    
     if (Video.writer) {
+        const subscribeButton = Video.writer._id !== localStorage.getItem('user_id') && <Subscribe subscribed={Video.writer._id} subscriber={localStorage.getItem('user_id')} />
         return (
             <Row>
                 <Col lg={18} xs={24}>
                     <div className="postPage" style={{ padding: '3rem 4em' }}>
                         <video style={{ width: '100%' }} src={`http://localhost:5000/${Video.filePath}`} controls></video>
                         <List.Item
-                            actions={[<Subscribe subscribed={Video.writer._id}/>]}
+                            actions={[subscribeButton]}
                         >
                             <List.Item.Meta
                                 avatar={<Avatar src={Video.writer && Video.writer.image} />}

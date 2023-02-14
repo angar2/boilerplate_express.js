@@ -8,7 +8,7 @@ function Subscribe(props) {
 
     let variables = {
         subscribed: props.subscribed,
-        subscriber: localStorage.getItem('user_id')
+        subscriber: props.subscriber
     };
     const subscribe = () => {
 
