@@ -7,10 +7,9 @@ function Subscribe(props) {
     const [Subscribing, setSubscribing] = useState(false);
 
     let variables = {
-        subscriber: props.subscriber,
-        subscribing : localStorage.getItem('user_id')
+        subscribed: props.subscribed,
+        subscriber: localStorage.getItem('user_id')
     };
-    console.log(Subscribing)
     const subscribe = () => {
 
         if(Subscribing) {
@@ -46,10 +45,10 @@ function Subscribe(props) {
             }
         });
     
-        axios.post('/api/subscribe/isSubscribing', variables)
+        axios.post('/api/subscribe/isSubscriber', variables)
         .then(res => {
             if(res.data.success) {
-                setSubscribing(res.data.isSubscribing);
+                setSubscribing(res.data.isSubscriber);
             } else {
                 alert('구독 정보 불러오기를 실패했습니다.');
             }

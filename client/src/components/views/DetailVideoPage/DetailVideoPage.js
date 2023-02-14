@@ -30,7 +30,7 @@ function DetailVideoPage(props) {
                     <div className="postPage" style={{ padding: '3rem 4em' }}>
                         <video style={{ width: '100%' }} src={`http://localhost:5000/${Video.filePath}`} controls></video>
                         <List.Item
-                            actions={[<Subscribe subscriber={Video.writer._id}/>]}
+                            actions={[<Subscribe subscribed={Video.writer._id}/>]}
                         >
                             <List.Item.Meta
                                 avatar={<Avatar src={Video.writer && Video.writer.image} />}
