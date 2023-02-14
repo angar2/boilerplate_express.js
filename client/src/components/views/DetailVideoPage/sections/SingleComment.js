@@ -6,7 +6,6 @@ import { Comment } from '@ant-design/compatible';
 const { TextArea } = Input;
 
 function SingleComment(props) {
-    console.log(props.comment.writer.name)
     const user = useSelector(state => state.user);
 
     const [OpenReply, setOpenReply] = useState(false);
@@ -33,7 +32,8 @@ function SingleComment(props) {
         axios.post('/api/comment/saveComment', variable)
         .then(res => {
             if(res.data.success) {
-                console.log(res.data);
+                setCommentValue("");
+                props.refreshFunction(res.data.comment);
             } else {
                 alert('댓글 저장에 실패했습니다.')
             }

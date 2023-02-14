@@ -27,7 +27,8 @@ function Comment(props) {
         axios.post('/api/comment/saveComment', variable)
         .then(res => {
             if(res.data.success) {
-                console.log(res.data);
+                setCommentValue("");
+                props.refreshFunction(res.data.comment);
             } else {
                 alert('댓글 저장에 실패했습니다.')
             }
@@ -40,7 +41,6 @@ function Comment(props) {
             <p>replies</p>
             <hr />
             {props.comments && props.comments.map((comment, i) => {
-                console.log(comment.responseTo)
                 return (!comment.responseTo &&
                     <SingleComment comment={comment} videoId={props.videoId} />
                 )

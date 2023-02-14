@@ -36,6 +36,11 @@ function DetailVideoPage(props) {
             }
         });
     }, []);
+
+    // redux로 변경 예정
+    const updateComment = (newComment) => {
+        setComments(Comments.concat(newComment))
+    }
     
     if (Video.writer) {
         const subscribeButton = Video.writer._id !== localStorage.getItem('user_id') && <Subscribe subscribed={Video.writer._id} subscriber={localStorage.getItem('user_id')} />
@@ -54,7 +59,7 @@ function DetailVideoPage(props) {
                             />
                             <div></div>
                         </List.Item>
-                        <Comment comments={Comments} videoId={Video._id}/>
+                        <Comment comments={Comments} videoId={Video._id} refreshFunction={updateComment} />
                     </div>
                 </Col>
                 <Col lg={6} xs={24}>
