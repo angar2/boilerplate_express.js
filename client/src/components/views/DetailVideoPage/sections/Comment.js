@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { Button, Input } from 'antd';
+import SingleComment from './SingleComment';
 const { TextArea } = Input;
 
 function Comment(props) {
@@ -11,7 +12,7 @@ function Comment(props) {
     const [CommentValue, setCommentValue] = useState('')
 
     const onChangeComment = (event) => {
-        setCommentValue(event.currentTarget.value)
+        setCommentValue(event.currentTarget.value);
     };
 
     const onSubmit = (event) => {
@@ -36,10 +37,14 @@ function Comment(props) {
     return (
         <div>
             <br />
-            <p> replies</p>
+            <p>replies</p>
             <hr />
-            {/* Comment Lists  */}
-
+            {props.comments && props.comments.map((comment, i) => {
+                console.log(comment.responseTo)
+                return (!comment.responseTo &&
+                    <SingleComment comment={comment} videoId={props.videoId} />
+                )
+            })}
             {/* Root Comment Form */}
             <form style={{ display: 'flex' }} onSubmit={onSubmit}>
                 <TextArea
