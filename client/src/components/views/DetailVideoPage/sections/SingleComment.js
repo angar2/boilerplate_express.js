@@ -33,7 +33,7 @@ function SingleComment(props) {
         .then(res => {
             if(res.data.success) {
                 setCommentValue("");
-                props.refreshFunction(res.data.comment);
+                props.updateComment(res.data.comment);
             } else {
                 alert('댓글 저장에 실패했습니다.')
             }

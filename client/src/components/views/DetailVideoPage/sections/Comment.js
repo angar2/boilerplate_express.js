@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { Button, Input } from 'antd';
 import SingleComment from './SingleComment';
+import ReplyComment from './ReplyComment';
 const { TextArea } = Input;
 
 function Comment(props) {
@@ -28,7 +29,7 @@ function Comment(props) {
         .then(res => {
             if(res.data.success) {
                 setCommentValue("");
-                props.refreshFunction(res.data.comment);
+                props.updateComment(res.data.comment);
             } else {
                 alert('댓글 저장에 실패했습니다.')
             }
@@ -42,7 +43,10 @@ function Comment(props) {
             <hr />
             {props.comments && props.comments.map((comment, i) => {
                 return (!comment.responseTo &&
-                    <SingleComment comment={comment} videoId={props.videoId} />
+                    <React.Fragment>
+                        <SingleComment comment={comment} videoId={props.videoId} updateComment={props.updateComment} />
+                        <ReplyComment comments={props.comments} parentCommentId={comment._id} videoId={props.videoId} updateComment={props.updateComment}/>
+                    </React.Fragment>
                 )
             })}
             {/* Root Comment Form */}
