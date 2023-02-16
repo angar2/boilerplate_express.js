@@ -52,7 +52,7 @@ function DetailVideoPage(props) {
                         <video style={{ width: '100%' }} src={`http://localhost:5000/${Video.filePath}`} controls></video>
                         <List.Item
                             actions={[
-                                <LikeDislike video userId={localStorage.getItem('user_id')} videoId={Video._id}/>, 
+                                <LikeDislike userId={localStorage.getItem('user_id')} videoId={Video._id}/>, 
                                 subscribeButton
                             ]}
                         >
