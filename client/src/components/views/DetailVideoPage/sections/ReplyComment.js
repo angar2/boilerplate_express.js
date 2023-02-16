@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import axios from 'axios';
-import { Avatar, Button, Input } from 'antd';
-import { Comment } from '@ant-design/compatible';
+import { Input } from 'antd';
 import SingleComment from './SingleComment';
 const { TextArea } = Input;
 
@@ -25,15 +22,12 @@ function ReplyComment(props) {
 
 
     const renderReplyComment = props.comments.map((comment, i) => {
-        // <React.Fragment>
-            console.log(comment.responseTo, props.parentCommentId)
-            return (comment.responseTo === props.parentCommentId &&
-                <div style={{ width: '80%', marginLeft: '40px' }}>
-                    <SingleComment comment={comment} videoId={props.videoId} updateComment={props.updateComment}/>
-                    <ReplyComment comments={props.comments} parentCommentId={comment._id} videoId={props.videoId} updateComment={props.updateComment}/>
-                </div>
-            );
-        // </React.Fragment>
+        return (comment.responseTo === props.parentCommentId &&
+            <div style={{ width: '80%', marginLeft: '40px' }}>
+                <SingleComment comment={comment} videoId={props.videoId} updateComment={props.updateComment}/>
+                <ReplyComment comments={props.comments} parentCommentId={comment._id} videoId={props.videoId} updateComment={props.updateComment}/>
+            </div>
+        );
     });
 
     const openReply = () => {
