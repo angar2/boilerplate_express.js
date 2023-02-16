@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { Avatar, Button, Input } from 'antd';
 import { Comment } from '@ant-design/compatible';
+import LikeDislike from './LikeDislike';
 const { TextArea } = Input;
 
 function SingleComment(props) {
@@ -41,6 +42,7 @@ function SingleComment(props) {
     };
 
     const actions =[
+        <LikeDislike video userId={localStorage.getItem('user_id')} commentId={props.comment._id}/>,
         <span onClick={openReply} key="comment-basic-reply-to">Reply to</span>
     ];
 

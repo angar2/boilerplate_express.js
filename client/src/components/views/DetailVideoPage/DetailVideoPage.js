@@ -5,6 +5,7 @@ import { List, Avatar, Col, Row } from 'antd';
 import SideVideos from './sections/SideVideos';
 import Subscribe from './sections/Subscribe';
 import Comment from './sections/Comment';
+import LikeDislike from './sections/LikeDislike';
 
 function DetailVideoPage(props) {
 
@@ -50,7 +51,10 @@ function DetailVideoPage(props) {
                     <div className="postPage" style={{ padding: '3rem 4em' }}>
                         <video style={{ width: '100%' }} src={`http://localhost:5000/${Video.filePath}`} controls></video>
                         <List.Item
-                            actions={[subscribeButton]}
+                            actions={[
+                                <LikeDislike video userId={localStorage.getItem('user_id')} videoId={Video._id}/>, 
+                                subscribeButton
+                            ]}
                         >
                             <List.Item.Meta
                                 avatar={<Avatar src={Video.writer && Video.writer.image} />}
