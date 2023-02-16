@@ -42,7 +42,7 @@ function SingleComment(props) {
     };
 
     const actions =[
-        <LikeDislike video userId={localStorage.getItem('user_id')} commentId={props.comment._id}/>,
+        <LikeDislike userId={localStorage.getItem('user_id')} commentId={props.comment._id}/>,
         <span onClick={openReply} key="comment-basic-reply-to">Reply to</span>
     ];
 
