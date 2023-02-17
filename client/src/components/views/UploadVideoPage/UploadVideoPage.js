@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { Typography, Button, Form, message, Input} from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import Dropzone from 'react-dropzone';
+import { fileInfoVideo, fileInfoVideo2 } from '../../../_actions/video_action';
 
 const {Title} = Typography;
 const {TextArea} = Input;
@@ -23,15 +25,15 @@ const CategoryOption = [
 ];
 
 function VideoUploadPage() {
+
+    const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     
     const [VideoTitle, setVideoTitle] = useState("");
     const [Description, setDescription] = useState("");
     const [Private, setPrivate] = useState(0);
     const [Category, setCategory] = useState("Film & Animation");
-    const [FilePath, setFilePath] = useState("");
-    const [Duration, setDuration] = useState("");
-    const [ThumbnailPath, setThumbnailPath] = useState("");
+    const video = useSelector(state => state.video);
     
     const navigate = useNavigate();
 
@@ -58,25 +60,23 @@ function VideoUploadPage() {
         };
         formData.append("file", files[0]);
 
-        axios.post('/api/video/uploadFile', formData, config)
+        dispatch(fileInfoVideo(formData, config))
             .then(res => {
-                if(res.data.success) {
-                    let variable = {
-                        filePath: res.data.filePath,
-                        fileName: res.data.fileName
+                if(res.payload.success) {
+                    let body = {
+                        filePath: res.payload.filePath,
+                        fileName: res.payload.fileName
                     };
-                    setFilePath(variable.filePath);
-                    axios.post('/api/video/thumbnail', variable)
+                    dispatch(fileInfoVideo2(body))
                         .then(res => {
-                            if(res.data.success) {
-                                setDuration(res.data.fileDuration);
-                                setThumbnailPath(res.data.thumbsFilePath);
+                            if(res.payload.success) {
+                                console.log('업로드 성공');
                             } else {
-                                alert('썸네일 생성에 실패했습니다.')
+                                alert('썸네일 생성에 실패했습니다.');
                             }
                         });
                 } else {
-                    alert('파일 업로드에 실패했습니다.')
+                    alert('파일 업로드에 실패했습니다.');
                 }
         });
     };
@@ -88,10 +88,10 @@ function VideoUploadPage() {
             title: VideoTitle,
             description: Description,
             private: Private,
-            filePath: FilePath,
+            filePath: video.fileInfo.filePath,
             category: Category,
-            duration: Duration,
-            thumbnail: ThumbnailPath
+            duration: video.fileInfo2.fileDuration,
+            thumbnail: video.fileInfo2.thumbsFilePath
         };
         axios.post('/api/video/uploadVideo', variables)
             .then(res => {
@@ -127,9 +127,9 @@ function VideoUploadPage() {
                             </div>
                         )}
                     </Dropzone>
-                    {ThumbnailPath &&
+                    {video.fileInfo2 &&
                         <div>
-                            <img src={`http://localhost:5000/${ThumbnailPath}`} alt="Thumbnail" />
+                            <img src={`http://localhost:5000/${video.fileInfo2.thumbsFilePath}`} alt="Thumbnail" />
                         </div>
                     }
                 </div>

@@ -1,9 +1,10 @@
 import { combineReducers } from "redux";
 // combineReducers: 여러개의 reducer를 하나로 합쳐주는 기능 -> rootReducer
 import user from './user_reducer';
+import video from './video_reducer';
 
 const rootReducer = combineReducers({
-    user
+    user, video
 });
 
 export default rootReducer;
