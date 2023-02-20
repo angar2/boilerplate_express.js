@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useParams } from "react-router-dom";
 import { List, Avatar, Col, Row } from 'antd';
 import SideVideos from './sections/SideVideos';
 import Subscribe from './sections/Subscribe';
 import Comment from './sections/Comment';
 import LikeDislike from './sections/LikeDislike';
+import { getVideo } from '../../../_actions/video_action';
 
 function DetailVideoPage(props) {
 
+    const dispatch = useDispatch();
     const videoId = useParams().videoId;
 
-    const [Video, setVideo] = useState([]);
+    const Video = useSelector(state => state.videoReducer).video;
     const [Comments, setComments] = useState([]);
     
     const variable = {
@@ -19,10 +23,9 @@ function DetailVideoPage(props) {
     }
 
     useEffect(() => {
-        axios.post('/api/video/getVideo', variable)
+        dispatch(getVideo(variable))
         .then(res => {
-            if(res.data.success) {
-                setVideo(res.data.video);
+            if(res.payload.success) {
             } else {
                 alert('게시물 정보 불러오기에 실패했습니다.');
             }
@@ -43,7 +46,7 @@ function DetailVideoPage(props) {
         setComments(Comments.concat(newComment))
     }
     
-    if (Video.writer) {
+    if (Video) {
         const subscribeButton = Video.writer._id !== localStorage.getItem('user_id') && <Subscribe subscribed={Video.writer._id} subscriber={localStorage.getItem('user_id')} />
         return (
             <Row>

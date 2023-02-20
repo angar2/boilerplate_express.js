@@ -68,7 +68,7 @@ function LandingPage() {
         <Title level={2} > Recommended </Title>
         <hr />
 
-        {videos !== undefined &&
+        {videos &&
           <Row gutter={16}>
             {renderCards}
           </Row>

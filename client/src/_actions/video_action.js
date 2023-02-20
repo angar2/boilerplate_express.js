@@ -1,5 +1,5 @@
 import axios from "axios";
-import { FILEINFO_VIDEO, FILEINFO2_VIDEO, GET_VIDEOS } from "./types";
+import { FILEINFO_VIDEO, FILEINFO2_VIDEO, GET_VIDEOS, GET_VIDEO } from "./types";
 
 export function fileInfoVideo(formData, config) {
     const req = axios.post('/api/video/uploadFile', formData, config)
@@ -26,4 +26,13 @@ export function getVideos() {
         type: GET_VIDEOS,
         payload: req
     }
+};
+
+export function getVideo(body) {
+  const req = axios.post('/api/video/getVideo', body)
+    .then(res => res.data);
+  return {
+      type: GET_VIDEO,
+      payload: req
+  }
 };
