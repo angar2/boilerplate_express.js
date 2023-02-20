@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 
 function RightMenu(props) {
-  const user = useSelector(state => state.user);
+  const user = useSelector(state => state.userReducer);
   const navigate = useNavigate();
   console.log(user)
 

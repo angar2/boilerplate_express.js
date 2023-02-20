@@ -7,7 +7,7 @@ import LikeDislike from './LikeDislike';
 const { TextArea } = Input;
 
 function SingleComment(props) {
-    const user = useSelector(state => state.user);
+    const user = useSelector(state => state.userReducer);
 
     const [OpenReply, setOpenReply] = useState(false);
     const [CommentValue, setCommentValue] = useState('')

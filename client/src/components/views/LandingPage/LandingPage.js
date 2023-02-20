@@ -9,7 +9,7 @@ const { Meta } = Card;
 function LandingPage() {
 
   const dispatch = useDispatch();
-  const videos = useSelector(state => state.video).videos;
+  const videos = useSelector(state => state.videoReducer).videos;
 
   let Videos = [];
   if(videos !== undefined) {

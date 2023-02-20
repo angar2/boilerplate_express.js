@@ -8,7 +8,7 @@ const { TextArea } = Input;
 
 function Comment(props) {
 
-    const user = useSelector(state => state.user);
+    const user = useSelector(state => state.userReducer);
 
     const [CommentValue, setCommentValue] = useState('')
 

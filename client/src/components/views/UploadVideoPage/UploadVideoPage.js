@@ -27,13 +27,13 @@ const CategoryOption = [
 function VideoUploadPage() {
 
     const dispatch = useDispatch();
-    const user = useSelector(state => state.user);
+    const user = useSelector(state => state.userReducer);
     
     const [VideoTitle, setVideoTitle] = useState("");
     const [Description, setDescription] = useState("");
     const [Private, setPrivate] = useState(0);
     const [Category, setCategory] = useState("Film & Animation");
-    const video = useSelector(state => state.video);
+    const video = useSelector(state => state.videoReducer);
     
     const navigate = useNavigate();
 

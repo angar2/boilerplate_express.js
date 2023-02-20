@@ -4,7 +4,8 @@ import user from './user_reducer';
 import video from './video_reducer';
 
 const rootReducer = combineReducers({
-    user, video
+    userReducer: user,
+    videoReducer: video
 });
 
 export default rootReducer;
