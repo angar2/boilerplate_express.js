@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { Avatar, Button, Input } from 'antd';
 import { Comment } from '@ant-design/compatible';
 import LikeDislike from './LikeDislike';
+import { getComments } from '../../../../_actions/comment_action';
 const { TextArea } = Input;
 
 function SingleComment(props) {
-    const user = useSelector(state => state.userReducer);
+    const dispatch = useDispatch();
+    const user = useSelector(state => state.userReducer).userData;
 
     const [OpenReply, setOpenReply] = useState(false);
     const [CommentValue, setCommentValue] = useState('')
@@ -24,7 +26,7 @@ function SingleComment(props) {
         event.preventDefault();
 
         let variable = {
-            writer: user.userData._id,
+            writer: user._id,
             videoId: props.videoId,
             responseTo: props.comment._id,
             content: CommentValue
@@ -34,7 +36,10 @@ function SingleComment(props) {
         .then(res => {
             if(res.data.success) {
                 setCommentValue("");
-                props.updateComment(res.data.comment);
+                openReply();
+                dispatch(getComments({
+                    videoId: props.videoId
+                }));
             } else {
                 alert('댓글 저장에 실패했습니다.')
             }

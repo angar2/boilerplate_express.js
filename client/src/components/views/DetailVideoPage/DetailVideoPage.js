@@ -16,35 +16,18 @@ function DetailVideoPage(props) {
     const videoId = useParams().videoId;
 
     const Video = useSelector(state => state.videoReducer).video;
-    const [Comments, setComments] = useState([]);
-    
-    const variable = {
-        videoId: videoId
-    }
 
     useEffect(() => {
-        dispatch(getVideo(variable))
+        dispatch(getVideo({
+            videoId: videoId
+        }))
         .then(res => {
             if(res.payload.success) {
             } else {
                 alert('게시물 정보 불러오기에 실패했습니다.');
             }
         });
-
-        axios.post('/api/comment/getcomments', variable)
-        .then(res => {
-            if(res.data.success) {
-                setComments(res.data.comments);
-            } else {
-                alert('댓글 정보 불러오기에 실패했습니다.');
-            }
-        });
     }, []);
-
-    // redux로 변경 예정
-    const updateComment = (newComment) => {
-        setComments(Comments.concat(newComment))
-    }
     
     if (Video) {
         const subscribeButton = Video.writer._id !== localStorage.getItem('user_id') && <Subscribe subscribed={Video.writer._id} subscriber={localStorage.getItem('user_id')} />
@@ -66,7 +49,7 @@ function DetailVideoPage(props) {
                             />
                             <div></div>
                         </List.Item>
-                        <Comment comments={Comments} videoId={Video._id} updateComment={updateComment} />
+                        <Comment videoId={Video._id} />
                     </div>
                 </Col>
                 <Col lg={6} xs={24}>

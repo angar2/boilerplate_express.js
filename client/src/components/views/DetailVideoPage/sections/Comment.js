@@ -1,14 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { Button, Input } from 'antd';
 import SingleComment from './SingleComment';
 import ReplyComment from './ReplyComment';
+import { getComments } from '../../../../_actions/comment_action';
 const { TextArea } = Input;
 
 function Comment(props) {
 
-    const user = useSelector(state => state.userReducer);
+    const dispatch = useDispatch();
+
+    const user = useSelector(state => state.userReducer).userData;
+    const comments = useSelector(state => state.commentReducer).comments;
+    let Comments = [];
+    if(comments !== undefined) {
+        for(let i = 0; i < comments.length; i++) {
+            Comments.push(comments[i])
+        }      
+    }
 
     const [CommentValue, setCommentValue] = useState('')
 
@@ -16,22 +26,35 @@ function Comment(props) {
         setCommentValue(event.currentTarget.value);
     };
 
+    useEffect(() => {
+        dispatch(getComments({
+            videoId: props.videoId
+        }))
+        .then(res => {
+            if(res.payload.success) {
+            } else {
+                alert('댓글 정보 불러오기에 실패했습니다.');
+            }
+        });
+    }, [])
+    
     const onSubmit = (event) => {
         event.preventDefault();
 
         let variable = {
-            writer: user.userData._id,
+            writer: user._id,
             videoId: props.videoId,
             content: CommentValue
         };
-
         axios.post('/api/comment/saveComment', variable)
         .then(res => {
             if(res.data.success) {
                 setCommentValue("");
-                props.updateComment(res.data.comment);
+                dispatch(getComments({
+                    videoId: props.videoId
+                }));
             } else {
-                alert('댓글 저장에 실패했습니다.')
+                alert('댓글 저장에 실패했습니다.');
             }
         });
     };
@@ -41,11 +64,11 @@ function Comment(props) {
             <br />
             <p>replies</p>
             <hr />
-            {props.comments && props.comments.map((comment, i) => {
+            {Comments && Comments.map((comment, i) => {
                 return (!comment.responseTo &&
                     <React.Fragment>
-                        <SingleComment comment={comment} videoId={props.videoId} updateComment={props.updateComment} />
-                        <ReplyComment comments={props.comments} parentCommentId={comment._id} videoId={props.videoId} updateComment={props.updateComment}/>
+                        <SingleComment comment={comment} videoId={props.videoId} />
+                        <ReplyComment parentCommentId={comment._id} videoId={props.videoId} />
                     </React.Fragment>
                 )
             })}
